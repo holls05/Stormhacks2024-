@@ -1,5 +1,6 @@
 .top-page {
     text-align: center;
+    font-family: 'Bangers';
 }
 a:link { 
     text-decoration: none; 
@@ -11,6 +12,6 @@ a:hover {
     background-color: rgb(230, 220, 220);
     text-decoration:none;
 }
-ass:active { 
+a:active { 
     text-decoration: none; 
   }
