@@ -14,26 +14,26 @@
         /*map*/
         #map {
             height: 400px;
-            width: 100%;
+            width: 90%;
+            display: flex;
+            
         }
 
         .title{
             font-family: 'Shrikhand'; 
             font-size: 60px;
-            color:#459BC9;
-            text-indent: 30px;
+            color:#459BC9;  
         }
 
         .title-description{
             font-family: 'Sans Serif Pro'; 
             font-size: 22px;
             color:#4A778F;
-            text-indent: 30px;
             line-height: 1.4;
         }
 
     </style>
-
+                                                                                                                                                                                                                                                                                                        
 </head>
 
 
@@ -44,10 +44,7 @@
             <li><a href = "index.html">Home</a></li>
             <li><a href = "snap.html">Snap-that-racc</a></li>
         </ul>
-    </nav>
-
-    
-    
+    </nav>  
 </header>
 <body>
 
@@ -56,11 +53,12 @@
         animal photos!
     </div>
 
-    <div class="title-description">
-        Welcome to Traccoon – your go-to for sharing all<br> those wild sightings. 
-        Spot an awesome animal, snap a<br>pic, and drop a pin so others can track it down too.<br> 
-        It’s all about connecting with fellow nature lovers and<br>exploring the great outdoors, 
-        one pic at a time.<br>Ready to join the adventure? Let’s go! 📸🌍
+    <div class="title-description"><p>
+        Welcome to Traccoon – your go-to for sharing all those wild sightings. <br>
+        Spot an awesome animal, snap a pic, and drop a pin so others can track it down too. <br>
+        It’s all about connecting with fellow nature lovers and exploring the great outdoors, <br>
+        one pic at a time. Ready to join the adventure? Let’s go! 📸🌍
+    </p>
     </div>
 
 
@@ -84,6 +82,30 @@
         <input type="hidden" id="longitude" name="longitude">
         
         <button type="submit">Upload</button>
+        <button id = "retrieve">Retrieve</button>
+
+        <!-----FIREBASE LIBRARIES-->
+        <script src = "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+        <script src = "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+        <script src = "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+        <script src = "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>
+
+        <script id = "MainScript">
+        <!---VARIABLES-->
+        var ImgName, ImgUrl;
+        var files = [];
+        var reader = new FileReader();
+        
+        //----SELECTION PROCESS----//
+        document.getElementById("select").onclick = function(e){
+
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.click();
+
+        }
+
+        </script>
     </form>
 
     <script>
@@ -199,6 +221,8 @@
         });
         
       </script>
-      <img src="take a pic button.png"/>
+      <a href="snap.html" class="button-link">
+        <img src="take a pic button.png" alt="snap a pic button" class="button-image">
+      </a>
 </body>
 </html>
