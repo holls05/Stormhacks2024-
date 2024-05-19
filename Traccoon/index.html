@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Shrikhand' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Source Serif Pro' rel='stylesheet'>
     <title>Traccoon Homepage</title>
-    <link rel = "stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 
 
     <style>
-
         /*map*/
         #map {
             height: 400px;
@@ -19,6 +19,20 @@
             
         }
 
+        .title {
+            font-family: 'Shrikhand';
+            font-size: 60px;
+            color: #459BC9;
+            text-indent: 30px;
+        }
+
+        .title-description {
+            font-family: 'Sans Serif Pro';
+            font-size: 22px;
+            color: #4A778F;
+            text-indent: 30px;
+            line-height: 1.4;
+        }
     </style>
                                                                                                                                                                                                                                                                                                         
 </head>
@@ -27,49 +41,55 @@
 <!--Adding the buttons for different pages-->
 <header>
     <nav>
-        <ul class = "nav-links">
-            <li><a href = "index.html"><h6>Homepage</h6>></a></li>
-            <li><a href = "snap.html"><h6>Snap-that-racc</h6></a></li>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="snap.html">Snap-that-racc</a></li>
         </ul>
-    </nav>  
+    </nav>
+
+
+
 </header>
+
 <body>
     <div class = "main-title">
         <h1>TRACCOON</h1>
     </div>
     <div class="title">
-        Share and view <br> 
+        Share and view <br>
         animal photos!
     </div>
 
-    <div class="title-description"><p>
-        Welcome to Traccoon – your go-to for sharing all those wild sightings. <br>
-        Spot an awesome animal, snap a pic, and drop a pin so others can track it down too. <br>
-        It’s all about connecting with fellow nature lovers and exploring the great outdoors, <br>
-        one pic at a time. Ready to join the adventure? Let’s go! 📸🌍
-    </p>
+    <div class="title-description">
+        Welcome to Traccoon – your go-to for sharing all<br> those wild sightings.
+        Spot an awesome animal, snap a<br>pic, and drop a pin so others can track it down too.<br>
+        It’s all about connecting with fellow nature lovers and<br>exploring the great outdoors,
+        one pic at a time.<br>Ready to join the adventure? Let’s go! 📸🌍
     </div>
 
 
 
 
- 
-    
+
+
     <!-- Google Maps -->
     <div id="map"></div>
-    
+
     <!-- Upload Form -->
     <h2>Upload Photo</h2>
     <form id="uploadForm" enctype="multipart/form-data">
         <label for="animalName">Animal Name:</label>
         <input type="text" id="animalName" name="animalName" required><br><br>
-        
+
         <label for="animalPhoto">Upload Photo:</label>
-        <input type="file" id="animalPhoto" name="animalPhoto" accept="image/*, video/*" capture="camera" required><br><br>
-        
+        <input type="file" id="animalPhoto" name="animalPhoto" accept="image/*, video/*" capture="camera" required
+            onchange="handleImageUpload(event)" />
+
+        <br><br>
+
         <input type="hidden" id="latitude" name="latitude">
         <input type="hidden" id="longitude" name="longitude">
-        
+
         <button type="submit">Upload</button>
         <!-- <button id = "retrieve">Retrieve</button>
 
@@ -101,25 +121,147 @@
     </form>
 
     <script>
+
         // Initialize Google Maps
-        function initMap() {
+
+    </script>
+
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set, child, get, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDlNF2Bhr-vt24-pGtIotite78SSSMU_WM",
+            authDomain: "traccoon-f56da.firebaseapp.com",
+            databaseURL: "https://traccoon-f56da-default-rtdb.firebaseio.com",
+            projectId: "traccoon-f56da",
+            storageBucket: "traccoon-f56da.appspot.com",
+            messagingSenderId: "768314803822",
+            appId: "1:768314803822:web:cae7f3f40ea1386166487f"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        console.log(app)
+
+        // Initialize Realtime Database and get a reference to the service
+        const db = getDatabase(app);
+
+        console.log(db)
+
+        // write to the database
+        const userId = '123'
+
+        set(ref(db, 'users/' + userId), {
+            username: 'name',
+            email: 'email',
+            profile_picture: 'imageUrl'
+        });
+
+        // read a single item
+
+        const dbRef = ref(db);
+        get(child(dbRef, `users/${userId}`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log(snapshot.val());
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+
+        window.handleImageUpload = async function handleImageUpload(event) {
+
+            function fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    // Create a new FileReader
+                    const reader = new FileReader();
+
+                    // Set up onload event handler
+                    reader.onload = () => {
+                        // Resolve with an object containing filename and base64 data
+                        resolve({
+                            filename: file.name,
+                            base64: reader.result  // Extract base64 data from data URL
+                        });
+                    };
+
+                    // Set up onerror event handler
+                    reader.onerror = () => {
+                        // Reject with an error message
+                        reject(new Error('Error reading file'));
+                    };
+
+                    // Read the file as a data URL
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            const file = event.target.files[0];
+            if (!file) return;
+            const { filename, base64 } = await fileToBase64(file);
+            async function uploadToFirebase(filename, base64) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const newPostRef = push(ref(db, 'pictures'), {
+                        filename: filename,
+                        base64: base64,
+                        latitude,
+                        longitude
+                    });
+                    console.log("Document written with ID: ", newPostRef.key);
+                    alert("File uploaded!");
+                }, (error) => {
+                    console.error('Error getting geolocation:', error);
+                });
+            }
+            uploadToFirebase(filename, base64)
+        }
+
+        window._initMap = async function initMap() {
             const map = new google.maps.Map(document.getElementById("map"), {
                 center: { lat: 49.277, lng: -122.921 },
                 zoom: 14
             });
-
+            const picturesRef = ref(db, 'pictures');
+            const query = await get(picturesRef);
+            
+            // This is all the pictures of raccoons
+            const data = [];
+            query.forEach((snapshot) => {
+                const key = snapshot.key;
+                const val = snapshot.val();
+                data.push({ id: key, ...val });
+            });
+            /**
+             * All you have to do to get a picture is to set the imageElement.src = data.base64 and that will work
+             **/
+            data.forEach(data => {
+                const marker = new google.maps.Marker({
+                    position: { lat: data.latitude, lng: data.longitude },
+                    map: map,
+                    title: data.filename
+                });
+            })
             // Add markers for existing sightings
+            /*
             fetch('/animals')
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(animal => {
-                        const marker = new google.maps.Marker({
-                            position: { lat: animal.location.coordinates[1], lng: animal.location.coordinates[0] },
-                            map: map,
-                            title: animal.name
-                        });
+
                     });
                 });
+            */
 
             // Add marker on click
             map.addListener("click", (event) => {
@@ -137,84 +279,21 @@
             }
         }
 
-        // Handle form submission
-        document.getElementById("uploadForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
 
-            fetch('/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Animal sighting uploaded successfully.');
-                    window.location.reload(); // Refresh the page to update markers
-                } else {
-                    alert('Error uploading animal sighting.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error uploading animal sighting.');
-            });
-        });
+    </script>
+    <script>
+        function timeoutInitMap() {
+            setTimeout(() => {
+                window._initMap();
+            }, 500);
+        }
     </script>
 
     <!-- Google Maps API Script -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8QEHHHbvzTT9AoWAt7_hMWk1GO_K62hk&callback=initMap" async defer></script>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, set, child, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyDlNF2Bhr-vt24-pGtIotite78SSSMU_WM",
-          authDomain: "traccoon-f56da.firebaseapp.com",
-          databaseURL: "https://traccoon-f56da-default-rtdb.firebaseio.com",
-          projectId: "traccoon-f56da",
-          storageBucket: "traccoon-f56da.appspot.com",
-          messagingSenderId: "768314803822",
-          appId: "1:768314803822:web:cae7f3f40ea1386166487f"
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        console.log(app)
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8QEHHHbvzTT9AoWAt7_hMWk1GO_K62hk&callback=timeoutInitMap"></script>
 
-// Initialize Realtime Database and get a reference to the service
-        const db = getDatabase(app);
-
-        console.log(db)
-
-        // write to the database
-        const userId = '123'
-
-        set(ref(db, 'users/' + userId), {
-            username: 'name',
-            email: 'email',
-            profile_picture : 'imageUrl'
-        });
-
-        // read a single item
-
-        const dbRef = ref(db);
-        get(child(dbRef, `users/${userId}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-            console.log(snapshot.val());
-        } else {
-            console.log("No data available");
-        }
-        }).catch((error) => {
-            console.error(error);
-        });
-        
-      </script>
-      <a href="snap.html" class="button-link">
-        <img src="take a pic button.png" alt="snap a pic button" class="button-image">
-      </a>
+    <img src="take a pic button.png" />
 </body>
+
 </html>
