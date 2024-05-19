@@ -1,34 +1,99 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Traccoon</title>
-        <link rel = "stylesheet" href="styles.css">
-    </head>
-    <body>
-        <header>
-            <nav>
-                <ul>
-                    <div class = "nav-links">
-                        <li><a href = "index.html">Home</a></li>
-                        <li><a href = "snap.html">Snap-that-racc</a></li>
-                    </div>
-                </ul>
-            </nav>
-            <div class = "top-page">
-                <h1>TRACCOON</h1>
-                <h2>TRACC THAT RACC!</h2>
-            </div>
-        </header>
-        <section>
-            <h1>Let's Track Your Raccoon!</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traccoon</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Let's Track Your Raccoon!</h1>
+    
+    <!-- Google Maps -->
+    <div id="map"></div>
+    
+    <!-- Upload Form -->
+    <h2>Upload Photo</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="animalName">Animal Name:</label>
+        <input type="text" id="animalName" name="animalName" required><br><br>
+        
+        <label for="animalPhoto">Upload Photo:</label>
+        <input type="file" id="animalPhoto" name="animalPhoto" accept="image/*, video/*" capture="camera" required><br><br>
+        
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+        
+        <button type="submit">Upload</button>
+    </form>
 
-            <div id = "maps"></div>
+    <script>
+        // Initialize Google Maps
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 0, lng: 0 },
+                zoom: 2
+            });
 
+            // Add markers for existing sightings
+            fetch('/animals')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(animal => {
+                        const marker = new google.maps.Marker({
+                            position: { lat: animal.location.coordinates[1], lng: animal.location.coordinates[0] },
+                            map: map,
+                            title: animal.name
+                        });
+                    });
+                });
 
-            <script src = "script.js"></script>
-            <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8QEHHHbvzTT9AoWAt7_hMWk1GO_K62hk&loading=async&callback=initMap">
-</script>
-        </section>
-    </body>
+            // Add marker on click
+            map.addListener("click", (event) => {
+                placeMarker(event.latLng);
+            });
+
+            // Function to place marker on map and update hidden inputs
+            function placeMarker(location) {
+                new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+                document.getElementById('latitude').value = location.lat();
+                document.getElementById('longitude').value = location.lng();
+            }
+        }
+
+        // Handle form submission
+        document.getElementById("uploadForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Animal sighting uploaded successfully.');
+                    window.location.reload(); // Refresh the page to update markers
+                } else {
+                    alert('Error uploading animal sighting.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error uploading animal sighting.');
+            });
+        });
+    </script>
+
+    <!-- Google Maps API Script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8QEHHHbvzTT9AoWAt7_hMWk1GO_K62hk&callback=initMap" async defer></script>
+</body>
 </html>
