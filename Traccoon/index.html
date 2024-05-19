@@ -3,16 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Shrikhand' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Source Serif Pro' rel='stylesheet'>
     <title>Traccoon</title>
+
+
     <style>
+
+        /*map*/
         #map {
             height: 400px;
             width: 100%;
         }
+
+        .title{
+            font-family: 'Shrikhand'; 
+            font-size: 60px;
+            color:#459BC9;
+            text-indent: 30px;
+        }
+
+        .title-description{
+            font-family: 'Sans Serif Pro'; 
+            font-size: 22px;
+            color:#4A778F;
+            text-indent: 30px;
+            line-height: 1.4;
+        }
+
     </style>
+
+
+
 </head>
 <body>
-    <h1>Let's Track Your Raccoon!</h1>
+
+    <div class="title">
+        Share and view <br> 
+        animal photos!
+    </div>
+
+    <div class="title-description">
+        Welcome to Traccoon – your go-to for sharing all<br> those wild sightings. 
+        Spot an awesome animal, snap a<br>pic, and drop a pin so others can track it down too.<br> 
+        It’s all about connecting with fellow nature lovers and<br>exploring the great outdoors, 
+        one pic at a time.<br>Ready to join the adventure? Let’s go! 📸🌍
+    </div>
+
+
+
+
+ 
     
     <!-- Google Maps -->
     <div id="map"></div>
@@ -116,6 +157,7 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         console.log(app)
+
 // Initialize Realtime Database and get a reference to the service
         const db = getDatabase(app);
 
@@ -144,5 +186,7 @@
         });
         
       </script>
+
+      <img src
 </body>
 </html>
