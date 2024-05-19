@@ -33,3 +33,38 @@ body {
   #map {
     height: 60vh;
   }
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: inline-block;
+}
+
+ul, li, a {
+  font-family: 'Sans Serif Pro';
+}
+
+.nav-links {
+  display:flex;
+  justify-content: center;
+}
+
+.nav-links a {
+  font-family: 'Sans Serif Pro';
+}
+
+.nav-links li {
+  margin: 0 15px; /*adjust spacing between links */
+}
+
+.title {
+  display:flex;
+  justify-content: center;
+}
+
+.title-description {
+  display:flex;
+  justify-content: center;
+
+}
