@@ -145,3 +145,42 @@ ul, li, a {
 }
 
 
+.instructions {
+  display: flex;
+  list-style: none;
+  padding:0;
+  justify-content: center;
+}
+
+.instructions ul li {
+  margin: 0 20px;
+  padding: 10px;
+  justify-content: center;
+  text-align: center;
+  flex-direction: row;
+  align-items:flex-start;
+ 
+}
+
+.instructions ul li p {
+  width: 200px;
+  height: 50px;
+  text-align:center;
+  margin: auto;
+}
+
+.instructions ul li h3 {
+  font-size: 110%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color:#4A778F;
+  min-height: 30px;
+  
+}
+
+.instructions ul li p {
+  font-size: 110%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color:#02141e;
+  
+}
+
