@@ -107,3 +107,41 @@ ul, li, a {
 }
 
 
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header h1 {
+      font-size: 1.5rem; /* Smaller font size for h1 on small screens */
+  }
+
+  .nav-links {
+      flex-direction: column; /* Stack items vertically */
+      margin-top: 1rem; /* Add margin at the top */
+  }
+
+  .nav-links li {
+      margin-bottom: 0.5rem; /* Space between vertical items */
+  }
+
+  .nav-links li a {
+      font-size: 0.875rem; /* Smaller font size for links */
+      padding: 0.5rem; /* Adjust padding for links */
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+      font-size: 1.25rem; /* Even smaller font size for h1 on very small screens */
+  }
+
+  .nav-links {
+      gap: 0.5rem; /* Reduce space between items */
+  }
+
+  .nav-links li a {
+      font-size: 0.75rem; /* Smaller font size for links */
+      padding: 0.5rem; /* Adjust padding for links */
+  }
+}
+
+
