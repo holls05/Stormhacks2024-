@@ -19,19 +19,6 @@
             
         }
 
-        .title{
-            font-family: 'Shrikhand'; 
-            font-size: 60px;
-            color:#459BC9;  
-        }
-
-        .title-description{
-            font-family: 'Sans Serif Pro'; 
-            font-size: 22px;
-            color:#4A778F;
-            line-height: 1.4;
-        }
-
     </style>
                                                                                                                                                                                                                                                                                                         
 </head>
@@ -41,13 +28,15 @@
 <header>
     <nav>
         <ul class = "nav-links">
-            <li><a href = "index.html">Home</a></li>
-            <li><a href = "snap.html">Snap-that-racc</a></li>
+            <li><a href = "index.html"><h6>Homepage</h6>></a></li>
+            <li><a href = "snap.html"><h6>Snap-that-racc</h6></a></li>
         </ul>
     </nav>  
 </header>
 <body>
-
+    <div class = "main-title">
+        <h1>TRACCOON</h1>
+    </div>
     <div class="title">
         Share and view <br> 
         animal photos!
@@ -82,7 +71,7 @@
         <input type="hidden" id="longitude" name="longitude">
         
         <button type="submit">Upload</button>
-        <button id = "retrieve">Retrieve</button>
+        <!-- <button id = "retrieve">Retrieve</button>
 
         <!-----FIREBASE LIBRARIES-->
         <script src = "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
@@ -103,7 +92,10 @@
             input.type = 'file';
             input.click();
 
-        }
+        } -->
+
+       
+       
 
         </script>
     </form>

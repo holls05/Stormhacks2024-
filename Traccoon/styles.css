@@ -30,6 +30,14 @@ body {
   padding: 0;
 }
 
+.main-title h1 {
+  display: flex;
+  justify-content: center;
+  font-family: 'Shrikhand'; 
+  font-size: 100px;
+  color:#459BC9;  
+}
+
   #map {
     height: 60vh;
   }
@@ -58,14 +66,28 @@ ul, li, a {
   margin: 0 15px; /*adjust spacing between links */
 }
 
+.nav-links li, a, h6 {
+  font-size: 110%;
+  font-family: sans-serif;
+}
 .title {
   display:flex;
   justify-content: center;
+  font-family: 'Shrikhand'; 
+  font-size: 60px;
+  color:#459BC9;  
 }
 
 .title-description {
   display:flex;
   justify-content: center;
   text-align: center;
-
 }
+
+.title-description p {
+  font-family: fantasy;
+  font-size: 22px;
+  color:#4A778F;
+  line-height: 1.4;
+}
+
