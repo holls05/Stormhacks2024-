@@ -66,5 +66,6 @@ ul, li, a {
 .title-description {
   display:flex;
   justify-content: center;
+  text-align: center;
 
 }
