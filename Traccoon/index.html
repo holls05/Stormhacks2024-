@@ -42,8 +42,8 @@
 <header>
     <nav>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="snap.html">Snap-that-racc</a></li>
+            <li><a href="index.html"><h6>Home</h6></a></li>
+            <li><a href="snap.html"><h6>Snap-that-racc</h6></a></li>
         </ul>
     </nav>
 
@@ -76,9 +76,9 @@
     <div id="map"></div>
 
     <!-- Upload Form -->
-    <div class="upload-form">
+    
         <div class = "form-caption"><h2>Upload Photo</h2></div>
-            
+        <div class="upload-form">       
     <form id="uploadForm" enctype="multipart/form-data">
         <label for="animalName">Animal Name:</label>
         <input type="text" id="animalName" name="animalName" required><br><br>
@@ -272,7 +272,9 @@
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8QEHHHbvzTT9AoWAt7_hMWk1GO_K62hk&callback=timeoutInitMap"></script>
 
-    <img src="take a pic button.png" />
+        <a href="snap.html" class="button-link">
+            <img src="take a pic button.png" alt="snap a pic button" class="button-image">
+          </a>
 </body>
 
 </html>
