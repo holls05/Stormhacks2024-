@@ -8,38 +8,8 @@
     <link href='https://fonts.googleapis.com/css?family=Source Serif Pro' rel='stylesheet'>
     <title>Traccoon Homepage</title>
     <link rel="stylesheet" href="styles.css">
-
-
-    <style>
-        /*map*/
-        #map {
-            height: 400px;
-            width: 90%;
-            display: flex;
-            margin: auto;
-            
-        }
-
-        .title {
-            font-family: 'Shrikhand';
-            font-size: 60px;
-            color: #459BC9;
-            text-indent: 30px;
-        }
-
-        .title-description {
-            font-family: 'Sans Serif Pro';
-            font-size: 22px;
-            color: #4A778F;
-            text-indent: 30px;
-            line-height: 1.4;
-        }
-    </style>
-                                                                                                                                                                                                                                                                                                        
 </head>
 
-
-<!--Adding the buttons for different pages-->
 <header>
     <nav>
         <ul class="nav-links">
@@ -47,13 +17,10 @@
             <li><a href="snap.html"><h6>Snap-that-racc</h6></a></li>
         </ul>
     </nav>
-
-
-
 </header>
 
 <body>
-    <div class = "main-title">
+    <div class="main-title">
         <h1>TRACCOON</h1>
     </div>
     <div class="title">
@@ -68,53 +35,30 @@
         one pic at a time.<br>Ready to join the adventure? Let’s go! 📸🌍
     </div>
 
-
-
-
-
-
     <!-- Google Maps -->
     <div id="map"></div>
 
     <!-- Upload Form -->
-    
-        <div class = "form-caption"><h2>Upload Photo</h2></div>
-        <div class="upload-form">       
-    <form id="uploadForm" enctype="multipart/form-data">
-        <label for="animalName">Animal Name:</label>
-        <input type="text" id="animalName" name="animalName" required><br><br>
+    <div class="form-caption"><h2>Upload Photo</h2></div>
+    <div class="upload-form">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="animalName">Animal Name:</label>
+            <input type="text" id="animalName" name="animalName" required><br><br>
 
-        <label for="animalPhoto">Upload Photo:</label>
-        <input type="file" id="animalPhoto" name="animalPhoto" accept="image/*, video/*" capture="camera" required
-            onchange="handleImageUpload(event)" />
+            <label for="animalPhoto">Upload Photo:</label>
+            <input type="file" id="animalPhoto" name="animalPhoto" accept="image/*, video/*" capture="camera" required onchange="handleImageUpload(event)"/><br><br>
 
-        <br><br>
+            <input type="hidden" id="latitude" name="latitude">
+            <input type="hidden" id="longitude" name="longitude">
 
-        <input type="hidden" id="latitude" name="latitude">
-        <input type="hidden" id="longitude" name="longitude">
-
-        <button type="submit">Upload</button>
+            <button type="submit">Upload</button>
+        </form>
     </div>
-        
-
-        </script>
-    </form>
-
-    <script>
-
-        // Initialize Google Maps
-
-    </script>
-
 
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, set, child, get, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -133,20 +77,17 @@
 
         // Initialize Realtime Database and get a reference to the service
         const db = getDatabase(app);
-
         console.log(db)
 
-        // write to the database
+        // Write to the database
         const userId = '123'
-
         set(ref(db, 'users/' + userId), {
             username: 'name',
             email: 'email',
             profile_picture: 'imageUrl'
         });
 
-        // read a single item
-
+        // Read a single item
         const dbRef = ref(db);
         get(child(dbRef, `users/${userId}`)).then((snapshot) => {
             if (snapshot.exists()) {
@@ -159,28 +100,14 @@
         });
 
         window.handleImageUpload = async function handleImageUpload(event) {
-
             function fileToBase64(file) {
                 return new Promise((resolve, reject) => {
-                    // Create a new FileReader
                     const reader = new FileReader();
-
-                    // Set up onload event handler
-                    reader.onload = () => {
-                        // Resolve with an object containing filename and base64 data
-                        resolve({
-                            filename: file.name,
-                            base64: reader.result  // Extract base64 data from data URL
-                        });
-                    };
-
-                    // Set up onerror event handler
-                    reader.onerror = () => {
-                        // Reject with an error message
-                        reject(new Error('Error reading file'));
-                    };
-
-                    // Read the file as a data URL
+                    reader.onload = () => resolve({
+                        filename: file.name,
+                        base64: reader.result
+                    });
+                    reader.onerror = () => reject(new Error('Error reading file'));
                     reader.readAsDataURL(file);
                 });
             }
@@ -188,6 +115,7 @@
             const file = event.target.files[0];
             if (!file) return;
             const { filename, base64 } = await fileToBase64(file);
+
             async function uploadToFirebase(filename, base64) {
                 navigator.geolocation.getCurrentPosition(async (position) => {
                     const latitude = position.coords.latitude;
@@ -204,6 +132,7 @@
                     console.error('Error getting geolocation:', error);
                 });
             }
+
             uploadToFirebase(filename, base64)
         }
 
@@ -212,43 +141,40 @@
                 center: { lat: 49.277, lng: -122.921 },
                 zoom: 14
             });
+
             const picturesRef = ref(db, 'pictures');
             const query = await get(picturesRef);
-            
-            // This is all the pictures of raccoons
+
             const data = [];
             query.forEach((snapshot) => {
                 const key = snapshot.key;
                 const val = snapshot.val();
                 data.push({ id: key, ...val });
             });
-            /**
-             * All you have to do to get a picture is to set the imageElement.src = data.base64 and that will work
-             **/
+
             data.forEach(data => {
                 const marker = new google.maps.Marker({
                     position: { lat: data.latitude, lng: data.longitude },
                     map: map,
                     title: data.filename
                 });
-            })
-            // Add markers for existing sightings
-            /*
-            fetch('/animals')
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(animal => {
 
-                    });
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `<div style="text-align: center;">
+                                <h3>${data.filename}</h3>
+                                <img src="${data.base64}" alt="${data.filename}" style="width:200px; height:auto;">
+                              </div>`
                 });
-            */
 
-            // Add marker on click
+                marker.addListener('click', () => {
+                    infoWindow.open(map, marker);
+                });
+            });
+
             map.addListener("click", (event) => {
                 placeMarker(event.latLng);
             });
 
-            // Function to place marker on map and update hidden inputs
             function placeMarker(location) {
                 new google.maps.Marker({
                     position: location,
@@ -258,8 +184,6 @@
                 document.getElementById('longitude').value = location.lng();
             }
         }
-
-
     </script>
     <script>
         function timeoutInitMap() {
@@ -270,12 +194,9 @@
     </script>
 
     <!-- Google Maps API Script -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8QEHHHbvzTT9AoWAt7_hMWk1GO_K62hk&callback=timeoutInitMap"></script>
-
-        <a href="snap.html" class="button-link">
-            <img src="take a pic button.png" alt="snap a pic button" class="button-image">
-          </a>
-</body>
-
-</html>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8QEHHHbvzTT9AoWAt7_hMWk1GO_K62hk&callback=timeoutInitMap"></script>
+        
+    <a href="snap
+    <a href="snap.html" class="button-link">
+        <img src="take a pic button.png" alt="snap a pic button" class="button-image">
+      </a>
