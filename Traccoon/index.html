@@ -36,8 +36,8 @@
         // Initialize Google Maps
         function initMap() {
             const map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: 0, lng: 0 },
-                zoom: 2
+                center: { lat: 49.277, lng: -122.921 },
+                zoom: 14
             });
 
             // Add markers for existing sightings
@@ -95,5 +95,54 @@
 
     <!-- Google Maps API Script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8QEHHHbvzTT9AoWAt7_hMWk1GO_K62hk&callback=initMap" async defer></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set, child, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDlNF2Bhr-vt24-pGtIotite78SSSMU_WM",
+          authDomain: "traccoon-f56da.firebaseapp.com",
+          databaseURL: "https://traccoon-f56da-default-rtdb.firebaseio.com",
+          projectId: "traccoon-f56da",
+          storageBucket: "traccoon-f56da.appspot.com",
+          messagingSenderId: "768314803822",
+          appId: "1:768314803822:web:cae7f3f40ea1386166487f"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        console.log(app)
+// Initialize Realtime Database and get a reference to the service
+        const db = getDatabase(app);
+
+        console.log(db)
+
+        // write to the database
+        const userId = '123'
+
+        set(ref(db, 'users/' + userId), {
+            username: 'name',
+            email: 'email',
+            profile_picture : 'imageUrl'
+        });
+
+        // read a single item
+
+        const dbRef = ref(db);
+        get(child(dbRef, `users/${userId}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            console.log(snapshot.val());
+        } else {
+            console.log("No data available");
+        }
+        }).catch((error) => {
+            console.error(error);
+        });
+        
+      </script>
 </body>
 </html>
