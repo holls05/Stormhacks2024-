@@ -5,9 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traccoon</title>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
         #map {
-            height: 400px;
-            width: 100%;
+            width: 80%;
+            height: 50vh;
+            border-radius: 50% / 25%;
+            overflow: hidden;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
         }
     </style>
 </head>
