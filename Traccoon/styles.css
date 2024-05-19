@@ -68,7 +68,7 @@ ul, li, a {
 
 .nav-links li, a, h6 {
   font-size: 110%;
-  font-family: sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .title {
   display:flex;
@@ -85,9 +85,17 @@ ul, li, a {
 }
 
 .title-description p {
-  font-family: fantasy;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 22px;
   color:#4A778F;
   line-height: 1.4;
 }
+
+.upload-form {
+  display:flex;
+  justify-content: center;
+
+}
+
+
 
